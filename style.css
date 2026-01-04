@@ -1,0 +1,228 @@
+:root {
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --header-bg: #fff;
+    --grid-border: #e0e0e0;
+    --cell-bg: #fff;
+    --cell-hover: #f9f9f9;
+    --label-color: #999;
+    --accent-color: #4a90e2;
+    --danger-color: #ff4d4f;
+    --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode {
+    --bg-color: #1e1e1e;
+    --text-color: #e0e0e0;
+    --header-bg: #2d2d2d;
+    --grid-border: #444;
+    --cell-bg: #2d2d2d;
+    --cell-hover: #383838;
+    --label-color: #666;
+    --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-container {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background: var(--header-bg);
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+input {
+    width: 60px;
+    padding: 8px;
+    border: 1px solid var(--grid-border);
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+}
+
+button {
+    padding: 8px 16px;
+    cursor: pointer;
+    background: #eee;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #ddd;
+}
+
+#apply-btn {
+    background: var(--bg-color);
+    border: 1px solid var(--grid-border);
+}
+
+#reset-btn {
+    background: var(--bg-color);
+    border: 1px solid var(--grid-border);
+}
+
+main {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.grid-container {
+    background: var(--grid-border);
+    border: 1px solid var(--grid-border);
+    border-radius: 8px 0 0 8px;
+    display: grid;
+    gap: 1px;
+    overflow: auto;
+    max-width: calc(100vw - 250px);
+    box-shadow: var(--card-shadow);
+    /* Row heights controlled by JS now */
+}
+
+.cell {
+    background-color: var(--cell-bg);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    user-select: none;
+    overflow: hidden;
+    /* visual safety */
+}
+
+.cell:not(.header-cell):hover {
+    background-color: var(--cell-hover);
+}
+
+.header-cell {
+    background-color: var(--header-bg);
+    font-weight: 600;
+    color: var(--label-color);
+    /* Height/Width controlled by grid track */
+}
+
+/* Let's redefine grid control slightly in CSS to be robust */
+/* We will control row heights in JS or just let them be fixed here. */
+
+.cell-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--label-color);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sidebar {
+    width: 250px;
+    /* Increased slightly */
+    background: var(--header-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    flex-shrink: 0;
+}
+
+.cards-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.card-item {
+    width: 100%;
+    height: 100px;
+    object-fit: contain;
+    cursor: grab;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.card-item:active {
+    cursor: grabbing;
+}
+
+.placed-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Cross styling */
+.cell.crossed::after {
+    content: '❌';
+    font-size: 2rem;
+    color: var(--danger-color);
+}
+
+.instructions {
+    margin-top: 30px;
+    padding: 20px;
+    background: var(--header-bg);
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+}
+
+.instructions ul {
+    margin-left: 20px;
+    margin-top: 10px;
+    line-height: 1.6;
+}

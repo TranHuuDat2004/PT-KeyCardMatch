@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeyCardMatch Helper</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="controls">
+                <div class="input-group">
+                    <label for="rows">Rows</label>
+                    <input type="number" id="rows" value="3" min="1" max="10">
+                </div>
+                <div class="input-group">
+                    <label for="cols">Cols</label>
+                    <input type="number" id="cols" value="8" min="1" max="12">
+                </div>
+                <button id="apply-btn">Apply</button>
+                <button id="reset-btn">Reset</button>
+            </div>
+            <button id="theme-toggle" class="icon-btn">
+                <span class="icon">🌙</span> Dark
+            </button>
+        </header>
+
+        <main>
+            <div class="grid-container" id="grid">
+                <!-- Grid will be generated here -->
+            </div>
+
+            <aside class="sidebar">
+                <h3>Cards</h3>
+                <div class="cards-list" id="cards-list">
+                    <!-- Cards will be generated here -->
+                </div>
+            </aside>
+        </main>
+
+        <section class="instructions">
+            <h3>How to use</h3>
+            <ul>
+                <li>Drag a card into a cell.</li>
+                <li>Click a cell to ❌ cross it and remove the card.</li>
+                <li>Click again to clear the cross.</li>
+                <li>Reset button clears everything.</li>
+            </ul>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
