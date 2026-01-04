@@ -9,6 +9,7 @@
     --accent-color: #4a90e2;
     --danger-color: #ff4d4f;
     --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --card-bg: #fff;
 }
 
 .dark-mode {
@@ -20,6 +21,7 @@
     --cell-hover: #383838;
     --label-color: #666;
     --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    --card-bg: #383838;
 }
 
 * {
@@ -182,8 +184,8 @@ main {
     height: 100px;
     object-fit: contain;
     cursor: grab;
-    background: #fff;
-    border: 1px solid #eee;
+    background: var(--card-bg);
+    border: 1px solid var(--grid-border);
     border-radius: 4px;
     padding: 5px;
 }
