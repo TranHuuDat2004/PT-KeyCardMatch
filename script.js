@@ -92,6 +92,8 @@ function createInteractiveCell(id) {
     gridContainer.appendChild(div);
 }
 
+let selectedImageSrc = null;
+
 // Generate Cards Sidebar
 function renderCards() {
     cardsList.innerHTML = '';
@@ -100,31 +102,47 @@ function renderCards() {
         img.src = `${imagePath} (${i})${imageExt}`;
         img.className = 'card-item';
         img.draggable = true;
+
+        // Desktop DnD
         img.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', img.src);
+            selectedImageSrc = null; // Clear click selection
+            clearCardHighlights();
         });
+
+        // Click to Select (Mobile/Desktop alternative)
+        img.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent propagation
+            selectedImageSrc = img.src;
+            clearCardHighlights();
+            img.classList.add('selected-card');
+        });
+
         cardsList.appendChild(img);
     }
+}
+
+function clearCardHighlights() {
+    document.querySelectorAll('.card-item').forEach(c => c.classList.remove('selected-card'));
 }
 
 // Interaction Logic
 function handleDrop(e, cell) {
     e.preventDefault();
     cell.style.backgroundColor = ''; // Reset highlight
-
     const imgSrc = e.dataTransfer.getData('text/plain');
-
-    // Clear existing state
-    clearCell(cell);
-
-    // Add Image
-    const img = document.createElement('img');
-    img.src = imgSrc;
-    img.className = 'placed-card';
-    cell.appendChild(img);
+    placeImage(cell, imgSrc);
 }
 
 function handleClick(cell) {
+    // If a card is selected from sidebar, try to place it
+    if (selectedImageSrc) {
+        placeImage(cell, selectedImageSrc);
+        selectedImageSrc = null;
+        clearCardHighlights();
+        return;
+    }
+
     const hasImage = cell.querySelector('img');
     const isCrossed = cell.classList.contains('crossed');
 
@@ -136,11 +154,17 @@ function handleClick(cell) {
         // "Click again to clear the cross."
         cell.classList.remove('crossed');
     } else {
-        // If empty and not crossed, maybe add cross?
-        // Instructions imply: Drag -> Card. Click Card -> Remove & Cross. Click Cross -> Clear.
-        // What if I click an empty cell? Usually, that should cross it too.
+        // Empty cell click -> Cross it (if no card selected)
         cell.classList.add('crossed');
     }
+}
+
+function placeImage(cell, src) {
+    clearCell(cell);
+    const img = document.createElement('img');
+    img.src = src;
+    img.className = 'placed-card';
+    cell.appendChild(img);
 }
 
 function clearCell(cell) {

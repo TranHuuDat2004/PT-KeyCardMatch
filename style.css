@@ -161,8 +161,8 @@ main {
 }
 
 .sidebar {
-    width: 250px;
-    /* Increased slightly */
+    width: 300px;
+    /* Increased for 3 columns */
     background: var(--header-bg);
     padding: 20px;
     border-radius: 8px;
@@ -172,7 +172,7 @@ main {
 
 .cards-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     margin-top: 15px;
 }
@@ -225,4 +225,59 @@ main {
     margin-left: 20px;
     margin-top: 10px;
     line-height: 1.6;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 10px;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    main {
+        flex-direction: column;
+    }
+
+    .grid-container {
+        max-width: 100%;
+        width: 100%;
+        border-radius: 8px;
+        /* Full radius on mobile */
+    }
+
+    .sidebar {
+        width: 100%;
+        order: -1;
+        /* Show cards above grid or below? Usually below is better for drag-drop if grid is huge, but dragging UP on mobile is hard. 
+        Actually, standard drag drag-and-drop on mobile is tricky without touch support. The HTML5 DnD API has poor mobile support. 
+        I should mention that mobile might need tap-to-select logic if DnD fails, but for layout purposes, I will just stack them. 
+        Let's put sidebar BELOW grid so user sees grid first, or ABOVE? 
+        If above, it pushes grid down. 
+        Let's keep sidebar at bottom for now or let natural order (grid then sidebar) persist. 
+        Wait, flex-direction column puts grid then sidebar. That's fine.
+        */
+    }
+
+    .cards-list {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    }
+
+    .card-item {
+        height: 80px;
+    }
+}
+
+.selected-card {
+    border: 3px solid var(--accent-color);
+    transform: scale(1.05);
 }
