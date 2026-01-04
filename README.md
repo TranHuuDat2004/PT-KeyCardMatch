@@ -2,6 +2,8 @@
 
 A simple web-based tool to help tracking card matches in the KeyCardMatch game.
 
+![screenshot](screenshot.png)
+
 ## Features
 - **Dynamic Grid**: Create a grid of custom rows and columns (default 3x8).
 - **Drag and Drop**: Drag card images from the sidebar into the grid cells.
