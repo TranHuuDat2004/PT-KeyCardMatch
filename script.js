@@ -3,7 +3,7 @@ const colsInput = document.getElementById('cols');
 const resetBtn = document.getElementById('reset-btn');
 const themeToggle = document.getElementById('theme-toggle');
 const gridContainer = document.getElementById('grid');
-const cardsList = document.getElementById('cards-list');
+const cardsLists = document.querySelectorAll('.cards-list');
 const versionSelect = document.getElementById('version-select');
 
 // Configuration
@@ -193,42 +193,44 @@ let selectedImageSrc = null;
 
 // Generate Cards Horizontal List
 function renderCards() {
-    cardsList.innerHTML = '';
-    const config = versions[currentVersion];
-    config.images.forEach(imageName => {
-        const img = document.createElement('img');
-        img.src = `${config.path}${imageName}`;
-        img.className = 'card-item';
-        img.draggable = true;
+    cardsLists.forEach(cardsList => {
+        cardsList.innerHTML = '';
+        const config = versions[currentVersion];
+        config.images.forEach(imageName => {
+            const img = document.createElement('img');
+            img.src = `${config.path}${imageName}`;
+            img.className = 'card-item';
+            img.draggable = true;
 
-        // Desktop Drag n Drop
-        img.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/plain', img.src);
-            selectedImageSrc = null; // Clear click selection
-            clearCardHighlights();
-            if (e.dataTransfer.setDragImage) {
-                e.dataTransfer.setDragImage(img, 30, 30);
-            }
-        });
-
-        // Mobile Touch Drag n Drop Support
-        setupTouchDrag(img);
-
-        // Click to Select (Mobile alternative)
-        img.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (selectedImageSrc === img.src) {
-                // Toggle selection off
-                selectedImageSrc = null;
+            // Desktop Drag n Drop
+            img.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', img.src);
+                selectedImageSrc = null; // Clear click selection
                 clearCardHighlights();
-            } else {
-                selectedImageSrc = img.src;
-                clearCardHighlights();
-                img.classList.add('selected-card');
-            }
-        });
+                if (e.dataTransfer.setDragImage) {
+                    e.dataTransfer.setDragImage(img, 30, 30);
+                }
+            });
 
-        cardsList.appendChild(img);
+            // Mobile Touch Drag n Drop Support
+            setupTouchDrag(img);
+
+            // Click to Select (Mobile alternative)
+            img.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (selectedImageSrc === img.src) {
+                    // Toggle selection off
+                    selectedImageSrc = null;
+                    clearCardHighlights();
+                } else {
+                    selectedImageSrc = img.src;
+                    clearCardHighlights();
+                    document.querySelectorAll(`.card-item[src$="${imageName}"]`).forEach(c => c.classList.add('selected-card'));
+                }
+            });
+
+            cardsList.appendChild(img);
+        });
     });
 }
 
