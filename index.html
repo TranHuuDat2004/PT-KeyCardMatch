@@ -23,84 +23,68 @@
             </button>
         </header>
 
-        <main class="app-main-layout">
-            <!-- Left Column: Banner, Controls, Grid (60%) -->
-            <div class="layout-left">
-                <div class="main-card">
-                    <div class="banner-section">
-                        <img src="img/banner/banner-weather.jpg" id="banner-img" alt="Banner Event">
-                        <h1 id="banner-title" class="banner-title">Sự kiện: Đài Khí Tượng</h1>
+        <main class="main-card">
+            <div class="banner-section">
+                <img src="img/banner/banner-weather.jpg" id="banner-img" alt="Banner Event">
+                <h1 id="banner-title" class="banner-title">Sự kiện: Đài Khí Tượng</h1>
+            </div>
+
+            <section class="controls-bar">
+                <div class="controls-row">
+                    <div class="input-group">
+                        <label for="version-select">Phiên bản</label>
+                        <select id="version-select">
+                            <option value="weather" selected>Weather</option>
+                            <option value="boat">Boat</option>
+                        </select>
                     </div>
+                    <div class="input-group">
+                        <label for="rows">Số hàng</label>
+                        <input type="number" id="rows" value="3" min="1" max="10">
+                    </div>
+                    <div class="input-group">
+                        <label for="cols">Số cột</label>
+                        <input type="number" id="cols" value="8" min="1" max="12">
+                    </div>
+                    <button id="reset-btn" class="reset-btn">Làm Mới</button>
+                </div>
+            </section>
 
-                    <section class="controls-bar">
-                        <div class="controls-row">
-                            <div class="input-group">
-                                <label for="version-select">Phiên bản</label>
-                                <select id="version-select">
-                                    <option value="weather" selected>Weather</option>
-                                    <option value="boat">Boat</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <label for="rows">Số hàng</label>
-                                <input type="number" id="rows" value="3" min="1" max="10">
-                            </div>
-                            <div class="input-group">
-                                <label for="cols">Số cột</label>
-                                <input type="number" id="cols" value="8" min="1" max="12">
-                            </div>
-                            <button id="reset-btn" class="reset-btn">Làm Mới</button>
-                        </div>
-                    </section>
+            <section class="cards-bar">
+                <div class="cards-list" id="cards-list">
+                    <!-- Cards will be generated here -->
+                </div>
+            </section>
 
-                    <!-- Mobile/Tablet Cards Panel (shown only when width < 1024px) -->
-                    <section class="cards-panel mobile-only-cards">
-                        <div class="cards-list">
-                            <!-- Cards will be generated here -->
-                        </div>
-                    </section>
+            <section class="grid-wrapper">
+                <div class="grid-container" id="grid">
+                    <!-- Grid will be generated here -->
+                </div>
+            </section>
+        </main>
 
-                    <section class="grid-wrapper">
-                        <div class="grid-container" id="grid">
-                            <!-- Grid will be generated here -->
-                        </div>
-                    </section>
+        <section class="instructions">
+            <div class="instructions-columns">
+                <div class="instructions-column">
+                    <h3>Hướng dẫn sử dụng</h3>
+                    <ul>
+                        <li>Kéo thẻ bài thả vào ô trống.</li>
+                        <li>Nhấn vào ô để đánh dấu ❌ và xóa thẻ bài.</li>
+                        <li>Nhấn lại lần nữa để xóa dấu ❌.</li>
+                        <li>Nhấn Reset để làm mới hoàn toàn.</li>
+                    </ul>
+                </div>
+                <div class="instructions-column">
+                    <h3>How to use</h3>
+                    <ul>
+                        <li>Drag a card into a cell.</li>
+                        <li>Click a cell to ❌ cross it and remove the card.</li>
+                        <li>Click again to clear the cross.</li>
+                        <li>Reset button clears everything.</li>
+                    </ul>
                 </div>
             </div>
-
-            <!-- Right Column: Instructions, Cards List (40%) -->
-            <div class="layout-right">
-                <section class="instructions">
-                    <div class="instructions-columns">
-                        <div class="instructions-column">
-                            <h3>Hướng dẫn sử dụng</h3>
-                            <ul>
-                                <li>Kéo thẻ bài thả vào ô trống.</li>
-                                <li>Nhấn vào ô để đánh dấu ❌ và xóa thẻ bài.</li>
-                                <li>Nhấn lại lần nữa để xóa dấu ❌.</li>
-                                <li>Nhấn Reset để làm mới hoàn toàn.</li>
-                            </ul>
-                        </div>
-                        <div class="instructions-column">
-                            <h3>How to use</h3>
-                            <ul>
-                                <li>Drag a card into a cell.</li>
-                                <li>Click a cell to ❌ cross it and remove the card.</li>
-                                <li>Click again to clear the cross.</li>
-                                <li>Reset button clears everything.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="cards-panel desktop-only-cards">
-                    <h3>Danh sách thẻ / Cards</h3>
-                    <div class="cards-list">
-                        <!-- Cards will be generated here -->
-                    </div>
-                </section>
-            </div>
-        </main>
+        </section>
 
         <footer class="app-footer">
             <p>Copyright &copy; 2026 Trần Hữu Đạt. All rights reserved.</p>
