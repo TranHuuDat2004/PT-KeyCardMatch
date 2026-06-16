@@ -4,13 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KeyCardMatch Helper</title>
+    <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-container">
-        <header>
+        <header class="app-header">
+            <div class="logo-area">
+                <img src="img/logo.png" class="logo-img" alt="Logo">
+                <span class="logo-text">KeyCardMatch Helper</span>
+            </div>
+            <button id="theme-toggle" class="icon-btn">
+                <span class="icon">🌙</span> Dark
+            </button>
+        </header>
+
+        <section class="controls-bar">
             <div class="controls">
+                <div class="input-group">
+                    <label for="version-select">Version</label>
+                    <select id="version-select">
+                        <option value="weather" selected>Weather</option>
+                        <option value="boat">Boat</option>
+                    </select>
+                </div>
                 <div class="input-group">
                     <label for="rows">Rows</label>
                     <input type="number" id="rows" value="3" min="1" max="10">
@@ -22,10 +40,7 @@
                 <button id="apply-btn">Apply</button>
                 <button id="reset-btn">Reset</button>
             </div>
-            <button id="theme-toggle" class="icon-btn">
-                <span class="icon">🌙</span> Dark
-            </button>
-        </header>
+        </section>
 
         <main>
             <div class="grid-container" id="grid">
@@ -41,14 +56,32 @@
         </main>
 
         <section class="instructions">
-            <h3>How to use</h3>
-            <ul>
-                <li>Drag a card into a cell.</li>
-                <li>Click a cell to ❌ cross it and remove the card.</li>
-                <li>Click again to clear the cross.</li>
-                <li>Reset button clears everything.</li>
-            </ul>
+            <div class="instructions-columns">
+                <div class="instructions-column">
+                    <h3>Hướng dẫn sử dụng</h3>
+                    <ul>
+                        <li>Kéo thẻ bài thả vào ô trống.</li>
+                        <li>Nhấn vào ô để đánh dấu ❌ và xóa thẻ bài.</li>
+                        <li>Nhấn lại lần nữa để xóa dấu ❌.</li>
+                        <li>Nhấn Reset để làm mới hoàn toàn.</li>
+                    </ul>
+                </div>
+                <div class="instructions-column">
+                    <h3>How to use</h3>
+                    <ul>
+                        <li>Drag a card into a cell.</li>
+                        <li>Click a cell to ❌ cross it and remove the card.</li>
+                        <li>Click again to clear the cross.</li>
+                        <li>Reset button clears everything.</li>
+                    </ul>
+                </div>
+            </div>
         </section>
+
+        <footer class="app-footer">
+            <p>Copyright &copy; 2026 Trần Hữu Đạt. All rights reserved.</p>
+            <p class="footer-sub">Last updated: June 16th 2026</p>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>

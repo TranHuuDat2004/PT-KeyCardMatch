@@ -5,12 +5,41 @@ const resetBtn = document.getElementById('reset-btn');
 const themeToggle = document.getElementById('theme-toggle');
 const gridContainer = document.getElementById('grid');
 const cardsList = document.getElementById('cards-list');
+const versionSelect = document.getElementById('version-select');
 
 // Configuration
-const defaultCards = 9; // Number of images found
-const imagePath = 'img/image'; // Base path for images
-const imageExt = '.jpg';
+const versions = {
+    weather: {
+        path: 'img/weather/',
+        images: [            
+            'coin.png',
+            'hint.png',
+            'magnifying-glass.png',
+            'cloudy.png',
+            'night.png',
+            'rainy.png',
+            'snow.png',
+            'sun.png',
+            'thunderous.png'
+        ]
+    },
+    boat: {
+        path: 'img/boat/',
+        images: [
+            'anchor.jpg',
+            'boat.jpg',
+            'cup.jpg',
+            'diamond.jpg',
+            'hint.jpg',
+            'magic-wand.jpg',
+            'magnifying-glass.jpg',
+            'music.jpg',
+            'steering-wheel.jpg'
+        ]
+    }
+};
 
+let currentVersion = 'weather';
 let isDarkMode = false;
 
 // Initialize
@@ -97,9 +126,10 @@ let selectedImageSrc = null;
 // Generate Cards Sidebar
 function renderCards() {
     cardsList.innerHTML = '';
-    for (let i = 1; i <= defaultCards; i++) {
+    const config = versions[currentVersion];
+    config.images.forEach(imageName => {
         const img = document.createElement('img');
-        img.src = `${imagePath} (${i})${imageExt}`;
+        img.src = `${config.path}${imageName}`;
         img.className = 'card-item';
         img.draggable = true;
 
@@ -119,7 +149,7 @@ function renderCards() {
         });
 
         cardsList.appendChild(img);
-    }
+    });
 }
 
 function clearCardHighlights() {
@@ -178,9 +208,17 @@ function clearCell(cell) {
 // Event Listeners
 function setupEventListeners() {
     applyBtn.addEventListener('click', renderGrid);
+    rowsInput.addEventListener('input', renderGrid);
+    colsInput.addEventListener('input', renderGrid);
 
     resetBtn.addEventListener('click', () => {
         renderGrid(); // Re-render is simplest reset
+    });
+
+    versionSelect.addEventListener('change', (e) => {
+        currentVersion = e.target.value;
+        renderGrid(); // Reset the grid
+        renderCards(); // Re-render sidebar cards
     });
 
     themeToggle.addEventListener('click', () => {
