@@ -13,7 +13,7 @@ const versions = {
         banner: 'img/banner/banner-weather.jpg',
         bannerTitle: 'Sự kiện: Đài Khí Tượng',
         cardBack: 'img/weather/card-back.png',
-        images: [            
+        images: [
             'coin.png',
             'hint.png',
             'magnifying-glass.png',
@@ -35,11 +35,11 @@ const versions = {
             'boat.jpg',
             'cup.jpg',
             'diamond.jpg',
+            'music.jpg',
+            'steering-wheel.jpg',
             'hint.jpg',
             'magic-wand.jpg',
             'magnifying-glass.jpg',
-            'music.jpg',
-            'steering-wheel.jpg'
         ]
     }
 };
@@ -53,11 +53,96 @@ let prevCols = 8;
 let prevVersion = 'weather';
 let pendingAction = null;
 
+let isLoadingState = false;
+
+// Save current board configuration and cell states to localStorage
+function saveState() {
+    if (isLoadingState) return;
+    const state = {
+        currentVersion: currentVersion,
+        rows: parseInt(rowsInput.value) || 3,
+        cols: parseInt(colsInput.value) || 8,
+        isDarkMode: isDarkMode,
+        cells: {}
+    };
+    document.querySelectorAll('.interactive-cell').forEach(cell => {
+        const id = cell.dataset.id;
+        const img = cell.querySelector('img');
+        const isCrossed = cell.classList.contains('crossed');
+        if (img) {
+            state.cells[id] = { type: 'image', src: img.getAttribute('src') };
+        } else if (isCrossed) {
+            state.cells[id] = { type: 'crossed' };
+        }
+    });
+    localStorage.setItem('PT-KeyCardMatch-state', JSON.stringify(state));
+}
+
+// Load previous state from localStorage
+function loadState() {
+    const saved = localStorage.getItem('PT-KeyCardMatch-state');
+    if (!saved) return false;
+    try {
+        isLoadingState = true;
+        const state = JSON.parse(saved);
+        
+        if (state.currentVersion) {
+            currentVersion = state.currentVersion;
+            versionSelect.value = currentVersion;
+            prevVersion = currentVersion;
+        }
+        
+        if (state.rows) {
+            rowsInput.value = state.rows;
+            prevRows = state.rows;
+        }
+        if (state.cols) {
+            colsInput.value = state.cols;
+            prevCols = state.cols;
+        }
+        
+        if (state.isDarkMode !== undefined) {
+            isDarkMode = state.isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            themeToggle.querySelector('.icon').textContent = isDarkMode ? '☀️' : '🌙';
+            themeToggle.childNodes[2].textContent = isDarkMode ? ' Light' : ' Dark';
+        }
+        
+        applyVersionConfig();
+        renderGrid();
+        renderCards();
+        
+        if (state.cells) {
+            document.querySelectorAll('.interactive-cell').forEach(cell => {
+                const id = cell.dataset.id;
+                const cellData = state.cells[id];
+                if (cellData) {
+                    if (cellData.type === 'image' && cellData.src) {
+                        placeImage(cell, cellData.src);
+                    } else if (cellData.type === 'crossed') {
+                        cell.classList.add('crossed');
+                    }
+                }
+            });
+        }
+        
+        isLoadingState = false;
+        return true;
+    } catch (err) {
+        console.error("Failed to load saved state:", err);
+        isLoadingState = false;
+        return false;
+    }
+}
+
 // Initialize
 function init() {
-    applyVersionConfig();
-    renderGrid();
-    renderCards();
+    const loaded = loadState();
+    if (!loaded) {
+        applyVersionConfig();
+        renderGrid();
+        renderCards();
+    }
     setupEventListeners();
     initConfirmModal();
 }
@@ -65,10 +150,10 @@ function init() {
 // Apply banner image, title text and card-back from versions config
 function applyVersionConfig() {
     const config = versions[currentVersion];
-    
+
     // Set card back CSS variable
     document.documentElement.style.setProperty('--card-back-url', `url('${config.cardBack}')`);
-    
+
     // Set banner image and banner title
     const bannerImg = document.getElementById('banner-img');
     const bannerTitle = document.getElementById('banner-title');
@@ -108,7 +193,7 @@ function initConfirmModal() {
     cancelBtn.addEventListener('click', () => {
         modal.classList.remove('active');
         pendingAction = null;
-        
+
         // Revert UI fields back to their previous confirmed state
         rowsInput.value = prevRows;
         colsInput.value = prevCols;
@@ -148,6 +233,7 @@ function renderGrid() {
         // Row Header (1, 2, 3...) - placed on the right
         createCell(r, 'header-cell');
     }
+    saveState();
 }
 
 function createCell(content, className = '') {
@@ -239,10 +325,10 @@ function setupTouchDrag(img) {
 
     img.addEventListener('touchstart', (e) => {
         if (e.touches.length > 1) return;
-        
+
         // Prevent page scrolling while dragging
         e.preventDefault();
-        
+
         selectedImageSrc = img.src;
         clearCardHighlights();
         img.classList.add('selected-card');
@@ -338,17 +424,21 @@ function handleClick(cell) {
         hasImage.classList.remove('bounce-in');
         hasImage.classList.add('bounce-out');
         cell.classList.add('crossed');
+        saveState();
         setTimeout(() => {
             if (hasImage.parentNode === cell) {
                 hasImage.remove();
+                saveState();
             }
         }, 200); // Matches bounceOut animation duration
     } else if (isCrossed) {
         // Click again to clear the cross
         cell.classList.remove('crossed');
+        saveState();
     } else {
         // Empty cell click -> Cross it
         cell.classList.add('crossed');
+        saveState();
     }
 }
 
@@ -358,6 +448,7 @@ function placeImage(cell, src) {
     img.src = src;
     img.className = 'placed-card bounce-in';
     cell.appendChild(img);
+    saveState();
 }
 
 function clearCell(cell) {
@@ -366,6 +457,7 @@ function clearCell(cell) {
     if (img) img.remove();
     // Remove cross
     cell.classList.remove('crossed');
+    saveState();
 }
 
 // Event Listeners
@@ -408,6 +500,7 @@ function setupEventListeners() {
         document.body.classList.toggle('dark-mode', isDarkMode);
         themeToggle.querySelector('.icon').textContent = isDarkMode ? '☀️' : '🌙';
         themeToggle.childNodes[2].textContent = isDarkMode ? ' Light' : ' Dark';
+        saveState();
     });
 }
 
