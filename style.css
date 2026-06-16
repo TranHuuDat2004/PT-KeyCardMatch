@@ -1,27 +1,28 @@
 :root {
-    --bg-color: #f5f5f5;
-    --text-color: #333;
-    --header-bg: #fff;
-    --grid-border: #e0e0e0;
-    --cell-bg: #fff;
-    --cell-hover: #f9f9f9;
-    --label-color: #999;
-    --accent-color: #4a90e2;
+    --bg-color: #f0f2f5;
+    --text-color: #2b303b;
+    --header-bg: #ffffff;
+    --grid-border: #e4e7eb;
+    --cell-bg: #ffffff;
+    --cell-hover: #f1f3f6;
+    --label-color: #8d91a5;
+    --accent-color: #41b4e6;
     --danger-color: #ff4d4f;
-    --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    --card-bg: #fff;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    --card-bg: #ffffff;
+    --card-back-url: url('img/weather/card-back.png');
 }
 
 .dark-mode {
-    --bg-color: #1e1e1e;
-    --text-color: #e0e0e0;
-    --header-bg: #2d2d2d;
-    --grid-border: #444;
-    --cell-bg: #2d2d2d;
-    --cell-hover: #383838;
-    --label-color: #666;
-    --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    --card-bg: #383838;
+    --bg-color: #0e0f11;
+    --text-color: #e4e7eb;
+    --header-bg: #15161b;
+    --grid-border: #23252f;
+    --cell-bg: #1c1d24;
+    --cell-hover: #282a35;
+    --label-color: #7d8296;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --card-bg: #15161b;
 }
 
 * {
@@ -35,26 +36,31 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding: 0;
 }
 
 .app-container {
-    padding: 20px;
-    max-width: 1400px;
-    margin: 0 auto;
+    max-width: 1100px;
     width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
+/* Header styling */
 .app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
     background: var(--header-bg);
-    padding: 15px 25px;
-    border-radius: 8px;
+    padding: 15px 30px;
+    border-radius: 20px;
     box-shadow: var(--card-shadow);
     transition: background-color 0.3s;
 }
@@ -62,7 +68,7 @@ body {
 .logo-area {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 .logo-img {
@@ -71,225 +77,490 @@ body {
     object-fit: contain;
 }
 
+.logo-text-group {
+    display: flex;
+    flex-direction: column;
+}
+
 .logo-text {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 700;
     letter-spacing: -0.5px;
     color: var(--text-color);
+    line-height: 1.1;
 }
 
-.controls-bar {
-    background: var(--header-bg);
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: var(--card-shadow);
-    margin-bottom: 20px;
-    transition: background-color 0.3s;
+.logo-subtext {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--label-color);
+    margin-top: 2px;
 }
 
-.controls {
+/* Premium Mode Button Toggle */
+.icon-btn {
+    background: var(--cell-bg);
+    color: var(--text-color);
+    border: 1px solid var(--grid-border);
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
     display: flex;
-    gap: 15px;
     align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    background: var(--cell-hover);
+    transform: translateY(-1px);
+}
+
+/* Main Card View */
+.main-card {
+    background: var(--header-bg);
+    border-radius: 24px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--grid-border);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Banner section */
+.banner-section {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+}
+
+#banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner-title {
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 0 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: -0.5px;
+}
+
+/* Controls section */
+.controls-bar {
+    padding: 25px 30px;
+    border-bottom: 1px solid var(--grid-border);
+    transition: border-color 0.3s;
+}
+
+.controls-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .input-group {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 8px;
 }
 
-input {
-    width: 60px;
-    padding: 8px;
-    border: 1px solid var(--grid-border);
-    border-radius: 4px;
-    background-color: var(--cell-bg);
-    color: var(--text-color);
-    text-align: center;
-    font-size: 16px;
-    outline: none;
-    transition: border-color 0.2s, background-color 0.3s, color 0.3s;
+.input-group label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--label-color);
 }
 
-input:focus {
-    border-color: var(--accent-color);
-}
-
-select {
-    padding: 8px;
-    border: 1px solid var(--grid-border);
-    border-radius: 4px;
-    background-color: var(--cell-bg);
-    color: var(--text-color);
-    font-size: 16px;
-    outline: none;
-    cursor: pointer;
-    font-family: inherit;
-    transition: border-color 0.2s, background-color 0.3s, color 0.3s;
-}
-
-select:hover {
-    border-color: var(--accent-color);
-}
-
-button {
-    padding: 8px 16px;
-    cursor: pointer;
-    background-color: var(--cell-bg);
+.input-group input,
+.input-group select {
+    background: var(--bg-color);
     color: var(--text-color);
     border: 1px solid var(--grid-border);
-    border-radius: 4px;
+    border-radius: 12px;
+    padding: 10px 16px;
     font-size: 14px;
-    font-weight: 500;
-    font-family: inherit;
-    transition: border-color 0.2s, background-color 0.3s, color 0.3s;
+    font-weight: 600;
+    height: 46px;
+    min-width: 140px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s;
 }
 
-button:hover {
-    background-color: var(--cell-hover);
+.input-group input:focus,
+.input-group select:focus {
     border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(65, 180, 230, 0.15);
 }
 
-main {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
+/* Reset Button */
+.reset-btn {
+    background: #f19624;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 0 28px;
+    font-size: 15px;
+    font-weight: 700;
+    height: 46px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(241, 150, 36, 0.2);
+    transition: all 0.2s ease;
 }
 
-.grid-container {
-    background: var(--grid-border);
-    border: 1px solid var(--grid-border);
-    border-radius: 8px 0 0 8px;
-    display: grid;
-    gap: 1px;
-    overflow: auto;
-    max-width: calc(100vw - 250px);
-    box-shadow: var(--card-shadow);
-    /* Row heights controlled by JS now */
+.reset-btn:hover {
+    background: #e0851c;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(241, 150, 36, 0.3);
 }
 
-.cell {
-    background-color: var(--cell-bg);
-    width: 100%;
-    height: 100%;
+/* Cards Horizontal Row bar */
+.cards-bar {
+    padding: 20px 30px;
+    background: var(--bg-color);
+    margin: 25px 30px;
+    border-radius: 16px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    position: relative;
-    user-select: none;
-    overflow: hidden;
-    /* visual safety */
-}
-
-.cell:not(.header-cell):hover {
-    background-color: var(--cell-hover);
-}
-
-.header-cell {
-    background-color: var(--header-bg);
-    font-weight: 600;
-    color: var(--label-color);
-    /* Height/Width controlled by grid track */
-}
-
-/* Let's redefine grid control slightly in CSS to be robust */
-/* We will control row heights in JS or just let them be fixed here. */
-
-.cell-label {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--label-color);
-    opacity: 0.15;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.sidebar {
-    width: 300px;
-    /* Increased for 3 columns */
-    background: var(--header-bg);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: var(--card-shadow);
-    flex-shrink: 0;
+    transition: background-color 0.3s;
 }
 
 .cards-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 15px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .card-item {
-    width: 100%;
-    height: 100px;
-    object-fit: contain;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
     cursor: grab;
-    background: var(--card-bg);
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: #fff;
+    padding: 2px;
+    border: 2px solid transparent;
+}
+
+.card-item:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.selected-card {
+    border-color: var(--accent-color);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(65, 180, 230, 0.3);
+}
+
+/* Grid Wrapper & Container */
+.grid-wrapper {
+    padding: 0 30px 30px 30px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.grid-container {
+    display: grid;
+    gap: 8px;
+    user-select: none;
+    margin: 0 auto;
+}
+
+/* Cells design */
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    position: relative;
+}
+
+.header-cell {
+    color: var(--label-color);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.interactive-cell {
+    border-radius: 8px;
+    background-color: var(--cell-bg);
     border: 1px solid var(--grid-border);
-    border-radius: 4px;
-    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
 }
 
-.card-item:active {
-    cursor: grabbing;
+.cell-label {
+    position: absolute;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--grid-border);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
+    user-select: none;
+    transition: color 0.3s;
 }
 
+.interactive-cell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* Drag over highlights */
+.interactive-cell.drag-over {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 3px var(--accent-color);
+}
+
+/* Placed card images inside cell */
 .placed-card {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 90%;
-    max-height: 90%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    object-fit: cover;
     pointer-events: none;
+    border-radius: 6px;
     z-index: 1;
 }
 
-/* Cross styling */
-.cell.crossed::after {
-    content: '❌';
-    font-size: 2rem;
-    color: var(--danger-color);
+/* Keyframe animations for bouncy effect */
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.08);
+        opacity: 0.9;
+    }
+    70% {
+        transform: scale(0.95);
+        opacity: 0.95;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
+@keyframes bounceOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.placed-card.bounce-in {
+    animation: bounceIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.placed-card.bounce-out {
+    animation: bounceOut 0.2s cubic-bezier(0.36, 0, 0.66, -0.56) forwards;
+}
+
+/* Cross styling & pop animations */
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+    }
+    80% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.cell.crossed::after {
+    content: '❌';
+    font-size: 2.2rem;
+    color: var(--danger-color);
+    display: inline-block;
+    animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    z-index: 2;
+    position: absolute;
+}
+
+/* Instructions card */
 .instructions {
-    margin-top: 30px;
-    padding: 20px;
+    margin-top: 10px;
+    padding: 25px 30px;
     background: var(--header-bg);
-    border-radius: 8px;
+    border-radius: 20px;
     box-shadow: var(--card-shadow);
     transition: background-color 0.3s;
+    border: 1px solid var(--grid-border);
 }
 
 .instructions-columns {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    gap: 40px;
 }
 
 .instructions-column h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 700;
     color: var(--text-color);
 }
 
 .instructions-column ul {
     margin-left: 20px;
     line-height: 1.6;
+    font-size: 14px;
+    color: var(--label-color);
 }
 
-/* Mobile Responsiveness */
+/* Footer card */
+.app-footer {
+    margin-top: 20px;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid var(--grid-border);
+    color: var(--label-color);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.footer-sub {
+    font-size: 11px;
+    margin-top: 4px;
+    opacity: 0.8;
+}
+
+/* Modal Confirmation box */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-box {
+    background: var(--header-bg);
+    border-radius: 24px;
+    padding: 30px;
+    text-align: center;
+    width: 380px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--grid-border);
+    transform: scale(0.85);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-overlay.active .modal-box {
+    transform: scale(1);
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+.modal-body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--label-color);
+    margin-bottom: 25px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.modal-btn {
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    min-width: 120px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+}
+
+.modal-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.modal-btn:active {
+    transform: scale(0.96);
+}
+
+.confirm-btn {
+    background: #f19624;
+    color: #ffffff;
+}
+
+.confirm-btn:hover {
+    background: #e0851c;
+}
+
+.cancel-btn {
+    background: #41b4e6;
+    color: #ffffff;
+}
+
+.cancel-btn:hover {
+    background: #2ea0d1;
+}
+
+/* Responsiveness */
 @media (max-width: 768px) {
     .app-container {
         padding: 10px;
@@ -299,69 +570,63 @@ main {
         flex-direction: column;
         gap: 15px;
         align-items: stretch;
+        text-align: center;
+    }
+
+    .logo-area {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .icon-btn {
+        justify-content: center;
+    }
+
+    .banner-section {
+        height: 180px;
+    }
+
+    .banner-title {
+        font-size: 22px;
+        bottom: 15px;
+        left: 20px;
+    }
+
+    .controls-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: 100%;
+    }
+
+    .reset-btn {
+        width: 100%;
+    }
+
+    .cards-bar {
+        margin: 15px;
+        padding: 15px;
+    }
+
+    .grid-wrapper {
+        padding: 0 15px 15px 15px;
+        justify-content: flex-start;
     }
 
     .instructions-columns {
         grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .controls {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    main {
-        flex-direction: column;
-    }
-
-    .grid-container {
-        max-width: 100%;
-        width: 100%;
-        border-radius: 8px;
-        /* Full radius on mobile */
-    }
-
-    .sidebar {
-        width: 100%;
-        order: -1;
-        /* Show cards above grid or below? Usually below is better for drag-drop if grid is huge, but dragging UP on mobile is hard. 
-        Actually, standard drag drag-and-drop on mobile is tricky without touch support. The HTML5 DnD API has poor mobile support. 
-        I should mention that mobile might need tap-to-select logic if DnD fails, but for layout purposes, I will just stack them. 
-        Let's put sidebar BELOW grid so user sees grid first, or ABOVE? 
-        If above, it pushes grid down. 
-        Let's keep sidebar at bottom for now or let natural order (grid then sidebar) persist. 
-        Wait, flex-direction column puts grid then sidebar. That's fine.
-        */
-    }
-
-    .cards-list {
-        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-    }
-
-    .card-item {
-        height: 80px;
+        gap: 25px;
     }
 }
 
-.selected-card {
-    border: 3px solid var(--accent-color);
-    transform: scale(1.05);
-}
-
-.app-footer {
-    margin-top: 40px;
-    padding: 20px;
-    text-align: center;
-    border-top: 1px solid var(--grid-border);
-    color: var(--label-color);
-    font-size: 14px;
-    line-height: 1.6;
-    transition: border-color 0.3s;
-}
-
-.footer-sub {
-    font-size: 12px;
-    margin-top: 4px;
-    opacity: 0.8;
+.touch-drag-clone {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: 2px solid var(--accent-color) !important;
+    background: white;
+    padding: 2px;
 }

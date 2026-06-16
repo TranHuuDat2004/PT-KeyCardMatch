@@ -13,46 +13,54 @@
         <header class="app-header">
             <div class="logo-area">
                 <img src="img/logo.png" class="logo-img" alt="Logo">
-                <span class="logo-text">KeyCardMatch Helper</span>
+                <div class="logo-text-group">
+                    <span class="logo-text">COWA</span>
+                    <span class="logo-subtext">Cộng Đồng Người Chơi Play Together</span>
+                </div>
             </div>
             <button id="theme-toggle" class="icon-btn">
                 <span class="icon">🌙</span> Dark
             </button>
         </header>
 
-        <section class="controls-bar">
-            <div class="controls">
-                <div class="input-group">
-                    <label for="version-select">Version</label>
-                    <select id="version-select">
-                        <option value="weather" selected>Weather</option>
-                        <option value="boat">Boat</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label for="rows">Rows</label>
-                    <input type="number" id="rows" value="3" min="1" max="10">
-                </div>
-                <div class="input-group">
-                    <label for="cols">Cols</label>
-                    <input type="number" id="cols" value="8" min="1" max="12">
-                </div>
-                <button id="apply-btn">Apply</button>
-                <button id="reset-btn">Reset</button>
-            </div>
-        </section>
-
-        <main>
-            <div class="grid-container" id="grid">
-                <!-- Grid will be generated here -->
+        <main class="main-card">
+            <div class="banner-section">
+                <img src="img/banner/banner-weather.jpg" id="banner-img" alt="Banner Event">
+                <h1 id="banner-title" class="banner-title">Sự kiện: Đài Khí Tượng</h1>
             </div>
 
-            <aside class="sidebar">
-                <h3>Cards</h3>
+            <section class="controls-bar">
+                <div class="controls-row">
+                    <div class="input-group">
+                        <label for="version-select">Phiên bản</label>
+                        <select id="version-select">
+                            <option value="weather" selected>Weather</option>
+                            <option value="boat">Boat</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="rows">Số hàng</label>
+                        <input type="number" id="rows" value="3" min="1" max="10">
+                    </div>
+                    <div class="input-group">
+                        <label for="cols">Số cột</label>
+                        <input type="number" id="cols" value="8" min="1" max="12">
+                    </div>
+                    <button id="reset-btn" class="reset-btn">Làm Mới</button>
+                </div>
+            </section>
+
+            <section class="cards-bar">
                 <div class="cards-list" id="cards-list">
                     <!-- Cards will be generated here -->
                 </div>
-            </aside>
+            </section>
+
+            <section class="grid-wrapper">
+                <div class="grid-container" id="grid">
+                    <!-- Grid will be generated here -->
+                </div>
+            </section>
         </main>
 
         <section class="instructions">
@@ -83,6 +91,22 @@
             <p class="footer-sub">Last updated: June 16th 2026</p>
         </footer>
     </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal-box">
+            <div class="modal-title">❔ CẢNH BÁO!</div>
+            <div class="modal-body">
+                Làm mới lúc này có thể làm mất các thẻ bạn đã đặt.<br>
+                Bạn có chắc chắn không?
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn confirm-btn" id="modal-confirm-btn">Chắc Chắn</button>
+                <button class="modal-btn cancel-btn" id="modal-cancel-btn">Không</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
