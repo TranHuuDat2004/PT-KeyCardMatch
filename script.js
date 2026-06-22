@@ -206,9 +206,8 @@ function renderGrid() {
     const rows = parseInt(rowsInput.value) || 1;
     const cols = parseInt(colsInput.value) || 1;
 
-    // Set grid template: columns include 'cols' cell columns (100px each) + 1 row header column (50px)
-    gridContainer.style.gridTemplateColumns = `repeat(${cols}, 100px) 50px`;
-    gridContainer.style.gridTemplateRows = `50px repeat(${rows}, 100px)`;
+    gridContainer.style.gridTemplateColumns = `repeat(${cols}, var(--cell-size, 100px)) var(--header-size, 50px)`;
+    gridContainer.style.gridTemplateRows = `var(--header-size, 50px) repeat(${rows}, var(--cell-size, 100px))`;
 
     gridContainer.innerHTML = '';
 
@@ -350,7 +349,7 @@ function setupTouchDrag(img) {
         updateClonePosition(touchClone, touch);
 
         // Highlight the interactive cell under the touch coordinate
-        const cell = getCellFromPoint(touch.clientX, touch.clientY);
+        const cell = getCellFromPoint(touch.clientX, touch.clientY, touchClone);
         document.querySelectorAll('.interactive-cell').forEach(c => c.classList.remove('drag-over'));
         if (cell) {
             cell.classList.add('drag-over');
@@ -361,8 +360,7 @@ function setupTouchDrag(img) {
         if (!touchClone) return;
         e.preventDefault();
 
-        const touch = e.changedTouches[0];
-        const cell = getCellFromPoint(touch.clientX, touch.clientY);
+        const cell = getCellFromPoint(touch.clientX, touch.clientY, touchClone);
 
         touchClone.remove();
         touchClone = null;
@@ -378,18 +376,28 @@ function setupTouchDrag(img) {
 }
 
 function updateClonePosition(clone, touch) {
+    const isMobile = window.innerWidth <= 768;
+    const size = isMobile ? 36 : 60;
     clone.style.position = 'fixed';
-    clone.style.left = `${touch.clientX - 30}px`;
-    clone.style.top = `${touch.clientY - 30}px`;
-    clone.style.width = '60px';
-    clone.style.height = '60px';
+    clone.style.left = `${touch.clientX - size / 2}px`;
+    clone.style.top = `${touch.clientY - size / 2}px`;
+    clone.style.width = `${size}px`;
+    clone.style.height = `${size}px`;
     clone.style.pointerEvents = 'none';
     clone.style.zIndex = '9999';
     clone.style.opacity = '0.9';
 }
 
-function getCellFromPoint(x, y) {
+function getCellFromPoint(x, y, clone = null) {
+    let cloneHidden = false;
+    if (clone) {
+        clone.style.display = 'none';
+        cloneHidden = true;
+    }
     const el = document.elementFromPoint(x, y);
+    if (cloneHidden && clone) {
+        clone.style.display = '';
+    }
     if (!el) return null;
     return el.closest('.interactive-cell');
 }

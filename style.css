@@ -11,6 +11,8 @@
     --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     --card-bg: #ffffff;
     --card-back-url: url('img/weather/card-back.png');
+    --cell-size: 100px;
+    --header-size: 50px;
 }
 
 .dark-mode {
@@ -564,64 +566,141 @@ body {
 
 /* Responsiveness */
 @media (max-width: 768px) {
+    :root {
+        --cell-size: 36px;
+        --header-size: 30px;
+    }
+
     .app-container {
         padding: 10px 15px;
     }
 
     .app-header {
-        flex-direction: column;
-        gap: 15px;
-        align-items: stretch;
-        text-align: center;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
     }
 
     .logo-area {
-        flex-direction: column;
-        gap: 8px;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .logo-img {
+        height: 35px;
+    }
+
+    .logo-text {
+        font-size: 16px;
+    }
+
+    .logo-subtext {
+        display: none;
     }
 
     .icon-btn {
-        justify-content: center;
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 8px;
     }
 
     .banner-section {
-        height: 180px;
+        display: none;
     }
 
-    .banner-title {
-        font-size: 22px;
-        bottom: 15px;
-        left: 20px;
+    .controls-bar {
+        padding: 15px;
     }
 
     .controls-row {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 15px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: space-between;
+    }
+
+    .controls-row .input-group:nth-child(1) {
+        width: 100%;
+    }
+
+    .controls-row .input-group:nth-child(2),
+    .controls-row .input-group:nth-child(3) {
+        width: calc(50% - 5px);
+    }
+
+    .input-group label {
+        font-size: 10px;
     }
 
     .input-group input,
     .input-group select {
         width: 100%;
+        height: 38px;
+        padding: 8px 12px;
+        font-size: 13px;
+        border-radius: 8px;
+        min-width: unset;
     }
 
     .reset-btn {
         width: 100%;
+        height: 38px;
+        font-size: 13px;
+        border-radius: 8px;
+        padding: 0;
     }
 
     .cards-bar {
-        margin: 15px;
-        padding: 15px;
+        margin: 10px 15px;
+        padding: 10px;
+    }
+
+    .cards-list {
+        gap: 6px;
+    }
+
+    .card-item {
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
     }
 
     .grid-wrapper {
-        padding: 0 15px 15px 15px;
+        padding: 0 10px 15px 10px;
         justify-content: flex-start;
+    }
+
+    .grid-container {
+        gap: 4px;
+    }
+
+    .cell-label {
+        font-size: 0.65rem;
+    }
+
+    .header-cell {
+        font-size: 11px;
+    }
+
+    .placed-card {
+        top: 2px;
+        left: 2px;
+        right: 2px;
+        bottom: 2px;
+        width: calc(100% - 4px);
+        height: calc(100% - 4px);
+        border-radius: 4px;
+    }
+
+    .cell.crossed::after {
+        font-size: 1.0rem;
     }
 
     .instructions-columns {
         grid-template-columns: 1fr;
-        gap: 25px;
+        gap: 20px;
     }
 }
 
